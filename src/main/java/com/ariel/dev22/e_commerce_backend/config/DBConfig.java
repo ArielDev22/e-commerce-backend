@@ -4,6 +4,7 @@ import com.ariel.dev22.e_commerce_backend.product.Product;
 import com.ariel.dev22.e_commerce_backend.product.ProductRepository;
 import com.ariel.dev22.e_commerce_backend.user.User;
 import com.ariel.dev22.e_commerce_backend.user.UserRepository;
+import com.ariel.dev22.e_commerce_backend.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +19,12 @@ import java.util.List;
 @Configuration
 public class DBConfig {
     @Bean
-    CommandLineRunner initDB(UserRepository userRepository, ProductRepository productRepository){
+    CommandLineRunner initDB(UserService userService, ProductRepository productRepository){
         return args -> {
             String imageDir = "images/";
             PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-            User user = new User("teste", "teste@gmail.com", encoder.encode("teste123"), "user");
-
-            userRepository.save(user);
+            userService.createUser("teste", "teste@gmail.com", encoder.encode("teste123"));
 
             Product p1 = new Product("Batom", BigDecimal.valueOf(39.99), "beauty");
             Product p2 = new Product("Rímel", BigDecimal.valueOf(89.99), "beauty");

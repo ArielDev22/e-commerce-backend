@@ -1,5 +1,6 @@
 package com.ariel.dev22.e_commerce_backend.user;
 
+import com.ariel.dev22.e_commerce_backend.favorite.Favorite;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -32,6 +33,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Favorite favorite;
 
     public User(String name, String email, String password, String role) {
         this.name = name;
