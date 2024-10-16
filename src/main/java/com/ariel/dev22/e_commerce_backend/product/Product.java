@@ -26,6 +26,8 @@ public class Product {
 
     private String imageUrl;
 
+    private String details;
+
     public Product(String name, BigDecimal price, String category) {
         this.name = name;
         this.price = price;

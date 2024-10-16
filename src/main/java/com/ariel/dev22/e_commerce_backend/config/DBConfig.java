@@ -2,8 +2,6 @@ package com.ariel.dev22.e_commerce_backend.config;
 
 import com.ariel.dev22.e_commerce_backend.product.Product;
 import com.ariel.dev22.e_commerce_backend.product.ProductRepository;
-import com.ariel.dev22.e_commerce_backend.user.User;
-import com.ariel.dev22.e_commerce_backend.user.UserRepository;
 import com.ariel.dev22.e_commerce_backend.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -27,14 +25,31 @@ public class DBConfig {
             userService.createUser("teste", "teste@gmail.com", encoder.encode("teste123"));
 
             Product p1 = new Product("Batom", BigDecimal.valueOf(39.99), "beauty");
+            p1.setDetails("Realce seus lábios com este batom de alta cobertura e longa duração. Disponível em diversas cores vibrantes, ele hidrata enquanto proporciona um acabamento suave e impecável.");
+
             Product p2 = new Product("Rímel", BigDecimal.valueOf(89.99), "beauty");
+            p2.setDetails("Obtenha cílios volumosos e alongados com este rímel à prova d'água. Sua fórmula leve e resistente não empelota e garante um olhar marcante durante todo o dia.");
+
             Product p3 = new Product("Paleta", BigDecimal.valueOf(84.99), "beauty");
+            p3.setDetails("Explore infinitas possibilidades de maquiagem com esta paleta de sombras. Com cores intensas e altamente pigmentadas, é perfeita para criar looks tanto para o dia quanto para a noite.");
+
             Product p4 = new Product("Blush", BigDecimal.valueOf(79.99), "beauty");
+            p4.setDetails("Dê um toque de cor e frescor às suas bochechas com este blush aveludado. Fácil de aplicar e esfumável, oferece uma aparência natural e radiante.");
+
             Product p5 = new Product("Delineador", BigDecimal.valueOf(69.99), "beauty");
+            p5.setDetails("Defina o olhar com precisão usando este delineador líquido. Sua ponta fina permite traços perfeitos, e a fórmula de longa duração resiste ao calor e à umidade.");
+
             Product p6 = new Product("Pó Compacto", BigDecimal.valueOf(109.99), "beauty");
+            p6.setDetails("Controle a oleosidade e finalize sua maquiagem com este pó compacto. Ele oferece um acabamento matte suave e uma textura leve para manter a pele impecável ao longo do dia.");
+
             Product p7 = new Product("Gloss", BigDecimal.valueOf(36.99), "beauty");
+            p7.setDetails("Adicione brilho e volume aos lábios com este gloss hidratante. Com textura leve e efeito não pegajoso, proporciona um toque elegante e confortável.");
+
             Product p8 = new Product("Água Micelar", BigDecimal.valueOf(59.99), "beauty");
+            p8.setDetails("Limpe e revitalize sua pele com esta água micelar. Sua fórmula suave remove maquiagem e impurezas sem agredir, deixando a pele fresca e hidratada.");
+
             Product p9 = new Product("Hidratante Labial", BigDecimal.valueOf(29.99), "beauty");
+            p9.setDetails("Mantenha seus lábios macios e protegidos com este hidratante labial. Ideal para o uso diário, ele previne o ressecamento e proporciona conforto imediato.");
 
             Product pc1 = new Product("Vestido Floral", BigDecimal.valueOf(299.99), "female_fashion");
             Product pc2 = new Product("Salto Formal", BigDecimal.valueOf(109.99), "female_fashion");
