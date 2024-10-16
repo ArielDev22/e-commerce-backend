@@ -33,7 +33,7 @@ public class TokenService {
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException e) {
-            throw new TokenException("Falha ao gerar o token");
+            throw new TokenException("Falha ao gerar o token:\n" + e.getMessage());
         }
     }
 
