@@ -38,15 +38,13 @@ public class CartService {
             cartItem.setImageUrl(product.getImageUrl());
 
             cart.getItems().add(cartItem);
-            cart.updateTotal();
 
-            cartRepository.save(cart);
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + 1);
-            cart.updateTotal();
-
-            cartRepository.save(cart);
         }
+        cart.updateTotal();
+        cartRepository.save(cart);
+
         return "Item adicionado no carrinho";
     }
 
@@ -68,17 +66,12 @@ public class CartService {
 
         if (cartItem.getQuantity() > 1) {
             cartItem.setQuantity(cartItem.getQuantity() - 1);
-
-            cart.updateTotal();
-
-            return cartRepository.save(cart);
         } else {
             cart.getItems().remove(cartItem);
-
-            cart.updateTotal();
-
-            return cartRepository.save(cart);
         }
+        cart.updateTotal();
+
+        return cartRepository.save(cart);
     }
 
     public Cart removeItem(Long itemId, String userEmail) {
