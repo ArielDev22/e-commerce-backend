@@ -21,9 +21,7 @@ public class FavoriteController {
     @PostMapping(value = "/add")
     public ResponseEntity<String> addItem(@RequestBody ProductIdDTO id,
                                           @AuthenticationPrincipal UserDetails userDetails){
-        String email = userDetails.getUsername();
-
-        return ResponseEntity.ok(favoriteService.addItem(id.productId(), email));
+        return ResponseEntity.ok(favoriteService.addItem(id.productId(), userDetails.getUsername()));
     }
 
     @GetMapping
@@ -40,8 +38,6 @@ public class FavoriteController {
     @DeleteMapping(value = "/remove/{itemId}")
     ResponseEntity<String> removeItem(@PathVariable Long itemId,
                                       @AuthenticationPrincipal UserDetails userDetails){
-        String email = userDetails.getUsername();
-
-        return ResponseEntity.ok(favoriteService.removeItem(itemId, email));
+        return ResponseEntity.ok(favoriteService.removeItem(itemId, userDetails.getUsername()));
     }
 }

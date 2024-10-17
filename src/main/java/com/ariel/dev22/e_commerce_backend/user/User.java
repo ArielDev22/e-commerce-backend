@@ -1,5 +1,6 @@
 package com.ariel.dev22.e_commerce_backend.user;
 
+import com.ariel.dev22.e_commerce_backend.cart.Cart;
 import com.ariel.dev22.e_commerce_backend.favorite.Favorite;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -36,6 +37,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Favorite favorite;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 
     public User(String name, String email, String password, String role) {
         this.name = name;

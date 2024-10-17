@@ -17,7 +17,7 @@ import java.util.List;
 @Configuration
 public class DBConfig {
     @Bean
-    CommandLineRunner initDB(UserService userService, ProductRepository productRepository){
+    CommandLineRunner initDB(UserService userService, ProductRepository productRepository) {
         return args -> {
             String imageDir = "images/";
             PasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -49,7 +49,7 @@ public class DBConfig {
             p8.setDetails("Limpe e revitalize sua pele com esta água micelar. Sua fórmula suave remove maquiagem e impurezas sem agredir, deixando a pele fresca e hidratada.");
 
             Product p9 = new Product("Hidratante Labial", BigDecimal.valueOf(29.99), "beauty");
-            p9.setDetails("Mantenha seus lábios macios e protegidos com este hidratante labial. Ideal para o uso diário, ele previne o ressecamento e proporciona conforto imediato.");
+            p9.setDetails("Mantenha seus lábios macios e protegidos com este hidratante labial. Ideal para o uso diário, ele previne o ressecamento e proporciona conforto imediato.");
 
             Product pc1 = new Product("Vestido Floral", BigDecimal.valueOf(299.99), "female_fashion");
             Product pc2 = new Product("Salto Formal", BigDecimal.valueOf(109.99), "female_fashion");
