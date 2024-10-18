@@ -1,8 +1,10 @@
 package com.ariel.dev22.e_commerce_backend.user;
 
+import com.ariel.dev22.e_commerce_backend.auth.AuthException;
 import com.ariel.dev22.e_commerce_backend.cart.Cart;
 import com.ariel.dev22.e_commerce_backend.favorite.Favorite;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,20 +12,43 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(String name, String email, String password) {
-        // CRAIR NOVO USUARIO
-        User newUser = new User(name, email, password, "user");
+    @Autowired
+    private PasswordEncoder encoder;
 
-        // CRIAR O FAVORITOS DO USUARIO
-        Favorite favorite = new Favorite();
-        favorite.setUser(newUser);
-        newUser.setFavorite(favorite);
+    public User registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()) == null) {
+            // DECODIFICAR SENHA
+            String encodedPassword = encoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
 
-        // CRIAR O CARRINHO DO USUARIO
-        Cart cart = new Cart(newUser);
-        newUser.setCart(cart);
+            // SETAR ROLE
+            user.setRole(UserRole.getRoleOf("user"));
 
-        return userRepository.save(newUser);
+            // CRIAR O FAVORITOS DO USUARIO
+            Favorite favorite = new Favorite();
+            favorite.setUser(user);
+            user.setFavorite(favorite);
+
+            // CRIAR O CARRINHO DO USUARIO
+            Cart cart = new Cart(user);
+            user.setCart(cart);
+
+            return userRepository.save(user);
+        }
+        throw new AuthException("Já existe uma conta com este email");
+    }
+
+    public User verifyLoginData(String email, String password){
+        User user = (User) userRepository.findByEmail(email);
+
+        if (user != null){
+            if (encoder.matches(password, user.getPassword())){
+                return user;
+            } else {
+                throw new AuthException("Senha incorreta");
+            }
+        }
+        throw new AuthException("Não existe uma conta com este email");
     }
 
     public User findUserByEmail(String email) {

@@ -2,6 +2,7 @@ package com.ariel.dev22.e_commerce_backend.config;
 
 import com.ariel.dev22.e_commerce_backend.product.Product;
 import com.ariel.dev22.e_commerce_backend.product.ProductRepository;
+import com.ariel.dev22.e_commerce_backend.user.User;
 import com.ariel.dev22.e_commerce_backend.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,7 @@ public class DBConfig {
             String imageDir = "images/";
             PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-            userService.createUser("teste", "teste@gmail.com", encoder.encode("teste123"));
+            userService.registerUser(new User("teste", "teste@gmail.com", "teste123"));
 
             Product p1 = new Product("Batom", BigDecimal.valueOf(39.99), "beauty");
             p1.setDetails("Realce seus lábios com este batom de alta cobertura e longa duração. Disponível em diversas cores vibrantes, ele hidrata enquanto proporciona um acabamento suave e impecável.");

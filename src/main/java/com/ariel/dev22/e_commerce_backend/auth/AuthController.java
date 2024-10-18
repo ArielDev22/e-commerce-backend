@@ -3,13 +3,10 @@ package com.ariel.dev22.e_commerce_backend.auth;
 import com.ariel.dev22.e_commerce_backend.token.TokenService;
 import com.ariel.dev22.e_commerce_backend.token.revoked.RevokedTokenService;
 import com.ariel.dev22.e_commerce_backend.user.User;
-import com.ariel.dev22.e_commerce_backend.user.UserRepository;
 import com.ariel.dev22.e_commerce_backend.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,44 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
     private final TokenService tokenService;
     private final UserService userService;
     private final RevokedTokenService revokedTokenService;
+    private final AuthService authService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthLoginDTO login) {
-        UserDetails userDetails = userRepository.findByEmail(login.email());
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthLoginDTO login) {
+        User user = userService.verifyLoginData(login.email(), login.password());
 
-        if (userDetails != null) {
-            if (encoder.matches(login.password(), userDetails.getPassword())) {
-                String token = tokenService.generateToken(userDetails);
+        String token = tokenService.generateToken(authService.loadUserByUsername(user.getUsername()));
 
-                return ResponseEntity.ok(new AuthResponseDTO(token));
-            } else {
-                throw new AuthException("Senha incorreta");
-            }
-        } else {
-            throw new AuthException("Não existe uma conta com este email");
-        }
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<AuthResponseDTO> register(@RequestBody AuthRegisterDTO register) {
-        UserDetails userDetails = userRepository.findByEmail(register.email());
+    public ResponseEntity<AuthResponse> register(@RequestBody AuthRegisterDTO authRegisterDTO) {
+        User user = authRegisterDTO.toModel();
 
-        if (userDetails == null) {
-            String encodedPassword = encoder.encode(register.password());
+        User userRegistered = userService.registerUser(user);
 
-            User newUser = userService.createUser(register.name(), register.email(), encodedPassword);
+        String token = tokenService.generateToken(authService.loadUserByUsername(userRegistered.getUsername()));
 
-            String token = tokenService.generateToken(newUser);
-
-            return ResponseEntity.ok(new AuthResponseDTO(token));
-        } else {
-            throw new AuthException("Já existe uma conta com este email");
-        }
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/logout")
