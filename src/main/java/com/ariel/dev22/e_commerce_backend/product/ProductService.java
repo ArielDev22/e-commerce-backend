@@ -10,11 +10,11 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> listByCategory(String category){
+    public List<Product> listByCategory(String category) {
         return productRepository.findAllByCategory(Category.getCategoryOf(category));
     }
 
-    public Product findById(Long id){
+    public Product findById(Long id) {
         return productRepository.findById(id).get();
     }
 }

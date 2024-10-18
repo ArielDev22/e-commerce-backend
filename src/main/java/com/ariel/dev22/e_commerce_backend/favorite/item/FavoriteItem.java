@@ -43,20 +43,20 @@ public class FavoriteItem {
     }
 
     @JsonIgnore
-    public Product getProduct(){
+    public Product getProduct() {
         return id.getProduct();
     }
 
-    public void setProduct(Product product){
+    public void setProduct(Product product) {
         id.setProduct(product);
     }
 
     @JsonIgnore
-    public Favorite getFavorite(){
+    public Favorite getFavorite() {
         return id.getFavorite();
     }
 
-    public void setFavorite(Favorite favorite){
+    public void setFavorite(Favorite favorite) {
         id.setFavorite(favorite);
     }
 }

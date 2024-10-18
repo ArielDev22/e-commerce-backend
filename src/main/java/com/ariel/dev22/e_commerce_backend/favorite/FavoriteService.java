@@ -18,7 +18,7 @@ public class FavoriteService {
     private ProductRepository productRepository;
     private FavoriteRepository favoriteRepository;
 
-    public String addItem(Long productId, String userEmail){
+    public String addItem(Long productId, String userEmail) {
         User user = (User) userRepository.findByEmail(userEmail);
 
         Favorite favorite = user.getFavorite();
@@ -30,7 +30,7 @@ public class FavoriteService {
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(product.getId())).findFirst().orElse(null);
 
-        if (favoriteItem == null){
+        if (favoriteItem == null) {
             favorite.getItems().add(
                     new FavoriteItem(product, favorite, product.getName(), product.getPrice(), LocalDate.now())
             );
@@ -43,7 +43,7 @@ public class FavoriteService {
         }
     }
 
-    public String removeItem(Long productId, String userEmail){
+    public String removeItem(Long productId, String userEmail) {
         User user = (User) userRepository.findByEmail(userEmail);
 
         Favorite favorite = user.getFavorite();
@@ -57,7 +57,7 @@ public class FavoriteService {
         return "Item removido";
     }
 
-    public Set<FavoriteItem> listItems(String userEmail){
+    public Set<FavoriteItem> listItems(String userEmail) {
         User user = (User) userRepository.findByEmail(userEmail);
 
         return user.getFavorite().getItems();

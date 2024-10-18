@@ -13,7 +13,7 @@ public class RevokedTokenService {
     @Autowired
     private RevokedTokenRepository revokedTokenRepository;
 
-    public void revokeToken(String token){
+    public void revokeToken(String token) {
         RevokedToken revokedToken = new RevokedToken(token, extractExpirationDate(token));
 
         revokedTokenRepository.save(revokedToken);
@@ -25,7 +25,7 @@ public class RevokedTokenService {
         return instant.atZone(ZoneOffset.UTC).toLocalDateTime();
     }
 
-    public boolean isRevoked(String token){
+    public boolean isRevoked(String token) {
         return revokedTokenRepository.findByToken(token).isPresent();
     }
 }
