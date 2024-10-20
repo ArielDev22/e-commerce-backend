@@ -1,9 +1,9 @@
 package com.ariel.dev22.e_commerce_backend.config;
 
-import com.ariel.dev22.e_commerce_backend.product.Product;
-import com.ariel.dev22.e_commerce_backend.product.ProductRepository;
-import com.ariel.dev22.e_commerce_backend.user.User;
-import com.ariel.dev22.e_commerce_backend.user.UserService;
+import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.product.repository.ProductRepository;
+import com.ariel.dev22.e_commerce_backend.user.model.User;
+import com.ariel.dev22.e_commerce_backend.user.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

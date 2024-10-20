@@ -1,8 +1,8 @@
 package com.ariel.dev22.e_commerce_backend.security;
 
-import com.ariel.dev22.e_commerce_backend.auth.AuthService;
-import com.ariel.dev22.e_commerce_backend.token.TokenService;
-import com.ariel.dev22.e_commerce_backend.token.revoked.RevokedTokenService;
+import com.ariel.dev22.e_commerce_backend.auth.service.AuthService;
+import com.ariel.dev22.e_commerce_backend.token.service.TokenService;
+import com.ariel.dev22.e_commerce_backend.token.service.RevokedTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
