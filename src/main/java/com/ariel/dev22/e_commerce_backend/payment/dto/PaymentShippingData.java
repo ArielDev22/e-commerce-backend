@@ -1,0 +1,10 @@
+package com.ariel.dev22.e_commerce_backend.payment.dto;
+
+public record PaymentShippingData(String email,
+                                  String name,
+                                  String street,
+                                  String city,
+                                  String state,
+                                  String postalCode,
+                                  String phone) {
+}
