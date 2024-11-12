@@ -1,15 +1,13 @@
 package com.ariel.dev22.e_commerce_backend.auth.controller;
 
-import com.ariel.dev22.e_commerce_backend.auth.dto.AuthLoginDTO;
-import com.ariel.dev22.e_commerce_backend.auth.dto.AuthRegisterDTO;
 import com.ariel.dev22.e_commerce_backend.auth.dto.AuthResponse;
-import com.ariel.dev22.e_commerce_backend.auth.service.AuthService;
-import com.ariel.dev22.e_commerce_backend.token.service.TokenService;
+import com.ariel.dev22.e_commerce_backend.auth.dto.LoginData;
+import com.ariel.dev22.e_commerce_backend.auth.dto.RegisterData;
 import com.ariel.dev22.e_commerce_backend.token.service.RevokedTokenService;
-import com.ariel.dev22.e_commerce_backend.user.model.User;
 import com.ariel.dev22.e_commerce_backend.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,39 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/auth")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthController {
-    private final TokenService tokenService;
-    private final UserService userService;
-    private final RevokedTokenService revokedTokenService;
-    private final AuthService authService;
+    private UserService userService;
+    private RevokedTokenService revokedTokenService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthLoginDTO login) {
-        User user = userService.verifyLoginData(login.email(), login.password());
-
-        String token = tokenService.generateToken(authService.loadUserByUsername(user.getUsername()));
-
-        return ResponseEntity.ok(new AuthResponse(token));
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginData data) {
+        return ResponseEntity.ok(new AuthResponse(userService.login(data)));
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody AuthRegisterDTO authRegisterDTO) {
-        User user = authRegisterDTO.toModel();
-
-        User userRegistered = userService.registerUser(user);
-
-        String token = tokenService.generateToken(authService.loadUserByUsername(userRegistered.getUsername()));
-
-        return ResponseEntity.ok(new AuthResponse(token));
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterData registerData) {
+        return ResponseEntity.ok(new AuthResponse(userService.register(registerData.toModel())));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
+    public ResponseEntity<String> logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
 
-        revokedTokenService.revokeToken(token);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(revokedTokenService.revokeToken(token));
     }
 }

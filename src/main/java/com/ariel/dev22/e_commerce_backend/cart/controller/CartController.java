@@ -5,7 +5,7 @@ import com.ariel.dev22.e_commerce_backend.cart.dto.CartItemDTO;
 import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
 import com.ariel.dev22.e_commerce_backend.cart.models.CartItem;
 import com.ariel.dev22.e_commerce_backend.cart.service.CartService;
-import com.ariel.dev22.e_commerce_backend.product.dto.ProductIdDTO;
+import com.ariel.dev22.e_commerce_backend.product.dto.ProductId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +22,7 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProduct(@RequestBody ProductIdDTO id,
+    public ResponseEntity<String> addProduct(@RequestBody ProductId id,
                                              @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(cartService.addItem(id.productId(), userDetails.getUsername()));
     }
@@ -33,7 +33,7 @@ public class CartController {
 
         List<CartItemDTO> items = new ArrayList<>();
         for (CartItem i : cart.getItems()) {
-            CartItemDTO item = new CartItemDTO(i.getProduct().getId(), i.getName(), i.getPrice(), i.getQuantity(), i.getImageUrl());
+            CartItemDTO item = new CartItemDTO(i.getProduct().getId(), i.getName(), i.getUnitPrice(), i.getQuantity(), i.getImageUrl());
 
             items.add(item);
         }
@@ -41,16 +41,17 @@ public class CartController {
     }
 
     @PutMapping(value = "/decrement")
-    public ResponseEntity<CartDTO> decrementItem(@RequestBody ProductIdDTO itemId,
+    public ResponseEntity<CartDTO> decrementItem(@RequestBody ProductId itemId,
                                                  @AuthenticationPrincipal UserDetails userDetails) {
         Cart cart = cartService.decrementQuantity(itemId.productId(), userDetails.getUsername());
 
         List<CartItemDTO> items = new ArrayList<>();
+
         for (CartItem i : cart.getItems()) {
             CartItemDTO item = new CartItemDTO(
                     i.getProduct().getId(),
                     i.getName(),
-                    i.getPrice(),
+                    i.getUnitPrice(),
                     i.getQuantity(),
                     i.getImageUrl()
             );
@@ -65,11 +66,12 @@ public class CartController {
         Cart cart = cartService.removeItem(itemId, userDetails.getUsername());
 
         List<CartItemDTO> items = new ArrayList<>();
+
         for (CartItem i : cart.getItems()) {
             CartItemDTO item = new CartItemDTO(
                     i.getProduct().getId(),
                     i.getName(),
-                    i.getPrice(),
+                    i.getUnitPrice(),
                     i.getQuantity(),
                     i.getImageUrl()
             );
