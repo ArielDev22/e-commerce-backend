@@ -1,4 +1,6 @@
 package com.ariel.dev22.e_commerce_backend.common.exceptions;
 
-public record ExceptionHandlerMessage(String message) {
+import org.springframework.http.HttpStatus;
+
+public record ExceptionHandlerMessage(String message, HttpStatus status) {
 }
