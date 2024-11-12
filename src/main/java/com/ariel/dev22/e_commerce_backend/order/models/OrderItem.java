@@ -3,9 +3,11 @@ package com.ariel.dev22.e_commerce_backend.order.models;
 import com.ariel.dev22.e_commerce_backend.order.models.pk.OrderItemPK;
 import com.ariel.dev22.e_commerce_backend.product.model.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,10 +24,14 @@ public class OrderItem {
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(nullable = false)
+    @Min(1)
     private Integer quantity;
 
     public OrderItem(Product product, Order order, String name, BigDecimal price, Integer quantity) {

@@ -6,6 +6,8 @@ import com.ariel.dev22.e_commerce_backend.order.models.Order;
 import com.ariel.dev22.e_commerce_backend.user.model.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,12 +29,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O nome de usuário não pode estar em branco")
     private String name;
 
-    @Email
-    @Column(unique = true)
+    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "O e-mail deve estar em um formato válido")
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "A senha não pode estar em branco")
+    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -47,10 +52,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = UserRole.getRoleOf(role);
     }
 
     @Override

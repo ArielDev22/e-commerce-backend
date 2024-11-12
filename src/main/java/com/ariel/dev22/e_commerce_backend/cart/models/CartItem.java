@@ -3,9 +3,14 @@ package com.ariel.dev22.e_commerce_backend.cart.models;
 import com.ariel.dev22.e_commerce_backend.cart.models.pk.CartItemPK;
 import com.ariel.dev22.e_commerce_backend.product.model.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,12 +27,21 @@ public class CartItem {
     @EmbeddedId
     private CartItemPK id = new CartItemPK();
 
+    @NotBlank(message = "O nome do item do carrinho não pode estar em branco")
+    @Column(nullable = false)
     private String name;
 
-    private BigDecimal price;
+    @NotNull(message = "O preço unitário do item do carrinho não pode ser nulo")
+    @DecimalMin(value = "0.0", message = "O preço unitário do item do carrinho não pode ser negativo")
+    @Column(nullable = false)
+    private BigDecimal unitPrice;
 
+    @NotNull(message = "A quantidade do item do carrinho não ser nula")
+    @Column(nullable = false)
+    @Min(1)
     private Integer quantity;
 
+    @NotBlank(message = "O item do carrinho deve ter uma url de imagem")
     private String imageUrl;
 
     public CartItem(Product product, Cart cart) {
@@ -54,6 +68,6 @@ public class CartItem {
     }
 
     public BigDecimal subTotal() {
-        return price.multiply(BigDecimal.valueOf(quantity.doubleValue()));
+        return unitPrice.multiply(BigDecimal.valueOf(quantity.doubleValue()));
     }
 }

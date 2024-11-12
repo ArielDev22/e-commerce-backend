@@ -3,6 +3,7 @@ package com.ariel.dev22.e_commerce_backend.cart.models;
 import com.ariel.dev22.e_commerce_backend.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -21,6 +22,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "O total do carrinho não pode ser nulo")
+    @Column(nullable = false)
     private BigDecimal total;
 
     @OneToMany(mappedBy = "id.cart", cascade = CascadeType.ALL, orphanRemoval = true)
