@@ -58,7 +58,7 @@ public class PaymentService {
     }
 
     private boolean validatePayment(Payment payment, Card card) {
-        return card.getCredit_limit().doubleValue() >= payment.getOrder().getTotal().doubleValue();
+        return card.getCreditLimit().doubleValue() >= payment.getOrder().getTotal().doubleValue();
     }
 
     private void validateCardData(Card card, CardData cardData) {

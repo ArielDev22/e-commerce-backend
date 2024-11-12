@@ -1,10 +1,12 @@
 package com.ariel.dev22.e_commerce_backend.user.service;
 
+import com.ariel.dev22.e_commerce_backend.auth.dto.LoginData;
 import com.ariel.dev22.e_commerce_backend.auth.exception.AuthException;
 import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
+import com.ariel.dev22.e_commerce_backend.email.EmailService;
 import com.ariel.dev22.e_commerce_backend.favorite.models.Favorite;
+import com.ariel.dev22.e_commerce_backend.token.service.TokenService;
 import com.ariel.dev22.e_commerce_backend.user.model.User;
-import com.ariel.dev22.e_commerce_backend.user.model.enums.UserRole;
 import com.ariel.dev22.e_commerce_backend.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,16 +16,14 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private EmailService emailService;
     private PasswordEncoder encoder;
+    private TokenService tokenService;
 
-    public User registerUser(User user) {
+    public String register(User user) {
         if (userRepository.findByEmail(user.getEmail()) == null) {
-            // DECODIFICAR SENHA
-            String encodedPassword = encoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-
-            // SETAR ROLE
-            user.setRole(UserRole.getRoleOf("user"));
+            // CODIFICAR SENHA
+            user.setPassword(encoder.encode(user.getPassword()));
 
             // CRIAR O FAVORITOS DO USUARIO
             Favorite favorite = new Favorite();
@@ -34,17 +34,21 @@ public class UserService {
             Cart cart = new Cart(user);
             user.setCart(cart);
 
-            return userRepository.save(user);
+            User newUser = userRepository.save(user);
+
+            emailService.confirmationEmailGeneration(newUser.getEmail());
+
+            return tokenService.generateToken(user);
         }
         throw new AuthException("Já existe uma conta com este email");
     }
 
-    public User verifyLoginData(String email, String password) {
-        User user = (User) userRepository.findByEmail(email);
+    public String login(LoginData data) {
+        User user = (User) userRepository.findByEmail(data.email());
 
         if (user != null) {
-            if (encoder.matches(password, user.getPassword())) {
-                return user;
+            if (encoder.matches(data.password(), user.getPassword())) {
+                return tokenService.generateToken(user);
             } else {
                 throw new AuthException("Senha incorreta");
             }

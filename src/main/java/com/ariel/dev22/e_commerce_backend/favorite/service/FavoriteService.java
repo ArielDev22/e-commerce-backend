@@ -4,7 +4,7 @@ import com.ariel.dev22.e_commerce_backend.favorite.models.Favorite;
 import com.ariel.dev22.e_commerce_backend.favorite.models.FavoriteItem;
 import com.ariel.dev22.e_commerce_backend.favorite.repository.FavoriteRepository;
 import com.ariel.dev22.e_commerce_backend.product.model.Product;
-import com.ariel.dev22.e_commerce_backend.product.repository.ProductRepository;
+import com.ariel.dev22.e_commerce_backend.product.service.ProductService;
 import com.ariel.dev22.e_commerce_backend.user.model.User;
 import com.ariel.dev22.e_commerce_backend.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -17,15 +17,15 @@ import java.util.Set;
 @AllArgsConstructor
 public class FavoriteService {
     private UserRepository userRepository;
-    private ProductRepository productRepository;
+    private ProductService productService;
     private FavoriteRepository favoriteRepository;
 
-    public String addItem(Long productId, String userEmail) {
+    public String addProductToFavorites(Long productId, String userEmail) {
         User user = (User) userRepository.findByEmail(userEmail);
 
         Favorite favorite = user.getFavorite();
 
-        Product product = productRepository.findById(productId).get();
+        Product product = productService.findById(productId);
 
         FavoriteItem favoriteItem = favorite
                 .getItems()
@@ -34,7 +34,7 @@ public class FavoriteService {
 
         if (favoriteItem == null) {
             favorite.getItems().add(
-                    new FavoriteItem(product, favorite, product.getName(), product.getPrice(), LocalDate.now())
+                    new FavoriteItem(product, favorite, product.getName(), product.getUnitPrice(), LocalDate.now())
             );
 
             favoriteRepository.save(favorite);
@@ -45,12 +45,12 @@ public class FavoriteService {
         }
     }
 
-    public String removeItem(Long productId, String userEmail) {
+    public String removeItemFromFavorites(Long productId, String userEmail) {
         User user = (User) userRepository.findByEmail(userEmail);
 
         Favorite favorite = user.getFavorite();
 
-        Product product = productRepository.findById(productId).get();
+        Product product = productService.findById(productId);
 
         favorite.getItems().removeIf(item -> item.getProduct().getId().equals(product.getId()));
 
@@ -59,7 +59,7 @@ public class FavoriteService {
         return "Item removido";
     }
 
-    public Set<FavoriteItem> listItems(String userEmail) {
+    public Set<FavoriteItem> listAllItems(String userEmail) {
         User user = (User) userRepository.findByEmail(userEmail);
 
         return user.getFavorite().getItems();

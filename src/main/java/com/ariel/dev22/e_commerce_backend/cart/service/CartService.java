@@ -29,13 +29,14 @@ public class CartService {
         //RECUPERAR O PRODUTO
         Product product = productService.findById(productId);
 
+        // ENCONTRAR ITEM NO CARRINHO
         CartItem cartItem = findCartItem(cart.getItems(), product.getId());
 
         if (cartItem == null) {
             cartItem = new CartItem(product, cart);
 
             cartItem.setName(product.getName());
-            cartItem.setPrice(product.getPrice());
+            cartItem.setUnitPrice(product.getUnitPrice());
             cartItem.setQuantity(1);
             cartItem.setImageUrl(product.getImageUrl());
 
@@ -43,6 +44,8 @@ public class CartService {
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + 1);
         }
+
+        // ATUALIZAR CARRINHO
         cart.updateTotal();
         cartRepository.save(cart);
 
@@ -50,9 +53,7 @@ public class CartService {
     }
 
     public Cart findCart(String userEmail) {
-        User user = userService.findUserByEmail(userEmail);
-
-        return user.getCart();
+        return userService.findUserByEmail(userEmail).getCart();
     }
 
     public Cart decrementQuantity(Long itemId, String userEmail) {
@@ -67,6 +68,7 @@ public class CartService {
         } else {
             cart.getItems().remove(cartItem);
         }
+
         cart.updateTotal();
 
         return cartRepository.save(cart);
@@ -96,7 +98,7 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    private CartItem findCartItem(Set<CartItem> items, Long itemId){
+    private CartItem findCartItem(Set<CartItem> items, Long itemId) {
         return items
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(itemId))

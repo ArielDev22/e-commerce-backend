@@ -39,7 +39,7 @@ public class OrderService {
                     item.getProduct(),
                     order,
                     item.getName(),
-                    item.getPrice(),
+                    item.getUnitPrice(),
                     item.getQuantity()
             );
             order.getItems().add(orderItem);
