@@ -11,11 +11,11 @@ public enum Category {
     MALE_FASHION("male_fashion"),
     SPORT("sport");
 
-    private String categoryValue;
+    private String value;
 
     public static Category getCategoryOf(String category){
         for (Category c : Category.values()){
-            if (c.getCategoryValue().equals(category)) return c;
+            if (c.getValue().equals(category)) return c;
         }
         return null;
     }

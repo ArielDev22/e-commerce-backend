@@ -13,11 +13,11 @@ public enum PaymentMethod {
 //    TICKET("ticket"),
     WALLET_BALANCE("wallet");
 
-    private String methodValue;
+    private String value;
 
     public static PaymentMethod getMethodOf(String method){
         for (PaymentMethod paymentMethod : PaymentMethod.values()){
-            if (paymentMethod.getMethodValue().equals(method)) return paymentMethod;
+            if (paymentMethod.getValue().equalsIgnoreCase(method)) return paymentMethod;
         }
         return null;
     }

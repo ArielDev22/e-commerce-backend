@@ -8,13 +8,11 @@ import lombok.Getter;
 public enum UserRole {
     USER("user");
 
-    private String roleValue;
+    private String value;
 
     public static UserRole getRoleOf(String role) {
         for (UserRole userRole : UserRole.values()) {
-            if (userRole.getRoleValue().equals(role)) {
-                return userRole;
-            }
+            if (userRole.getValue().equalsIgnoreCase(role)) return userRole;
         }
         return null;
     }
