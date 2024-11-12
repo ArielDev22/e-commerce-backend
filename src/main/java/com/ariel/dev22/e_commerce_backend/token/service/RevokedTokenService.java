@@ -7,27 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Service
 public class RevokedTokenService {
     @Autowired
     private RevokedTokenRepository revokedTokenRepository;
 
-    public void revokeToken(String token) {
+    public String revokeToken(String token) {
         RevokedToken revokedToken = new RevokedToken(token, extractExpirationDate(token));
 
         revokedTokenRepository.save(revokedToken);
-    }
 
-    private LocalDateTime extractExpirationDate(String token) {
-        Instant instant = JWT.decode(token).getExpiresAtAsInstant();
-
-        return instant.atZone(ZoneOffset.UTC).toLocalDateTime();
+        return "Token revogado com sucesso: " + token;
     }
 
     public boolean isRevoked(String token) {
         return revokedTokenRepository.findByToken(token).isPresent();
+    }
+
+    private Instant extractExpirationDate(String token) {
+        return JWT.decode(token).getExpiresAtAsInstant();
     }
 }

@@ -26,12 +26,14 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            return JWT
+            String token = JWT
                     .create()
                     .withIssuer("e-commerce-backend")
                     .withSubject(userDetails.getUsername())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
+            System.out.println("Token gerado: " + token);
+            return token;
         } catch (JWTCreationException e) {
             throw new TokenException("Falha ao gerar o token:\n" + e.getMessage());
         }
@@ -39,13 +41,13 @@ public class TokenService {
 
     public String validateToken(String token) {
         try {
-            if (revokedTokenService.isRevoked(token)) {
-                return null;
-            }
+            if (revokedTokenService.isRevoked(token)) return null;
+
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT
                     .require(algorithm)
+                    .withIssuer("e-commerce-backend")
                     .build()
                     .verify(token)
                     .getSubject();
