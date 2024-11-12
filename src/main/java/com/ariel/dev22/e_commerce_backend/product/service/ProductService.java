@@ -30,7 +30,7 @@ public class ProductService {
             productsList.add(new ProductDTO(
                     product.getId(),
                     product.getName(),
-                    product.getPrice(),
+                    product.getUnitPrice(),
                     product.getImageUrl()
             ));
         }
