@@ -1,9 +1,7 @@
 package com.ariel.dev22.e_commerce_backend.cart.controller;
 
 import com.ariel.dev22.e_commerce_backend.cart.dto.CartDTO;
-import com.ariel.dev22.e_commerce_backend.cart.dto.CartItemDTO;
 import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
-import com.ariel.dev22.e_commerce_backend.cart.models.CartItem;
 import com.ariel.dev22.e_commerce_backend.cart.service.CartService;
 import com.ariel.dev22.e_commerce_backend.product.dto.ProductId;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cart")
@@ -31,13 +28,15 @@ public class CartController {
     public ResponseEntity<CartDTO> listItems(@AuthenticationPrincipal UserDetails userDetails) {
         Cart cart = cartService.findCart(userDetails.getUsername());
 
-        List<CartItemDTO> items = new ArrayList<>();
-        for (CartItem i : cart.getItems()) {
-            CartItemDTO item = new CartItemDTO(i.getProduct().getId(), i.getName(), i.getUnitPrice(), i.getQuantity(), i.getImageUrl());
+        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), cartService.listCartItems(cart)));
+    }
 
-            items.add(item);
-        }
-        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), items));
+    @PutMapping(value = "/increment")
+    public ResponseEntity<CartDTO> incrementItem(@RequestBody ProductId itemId,
+                                                 @AuthenticationPrincipal UserDetails userDetails) {
+        Cart cart = cartService.incrementQuantity(itemId.productId(), userDetails.getUsername());
+
+        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), cartService.listCartItems(cart)));
     }
 
     @PutMapping(value = "/decrement")
@@ -45,19 +44,7 @@ public class CartController {
                                                  @AuthenticationPrincipal UserDetails userDetails) {
         Cart cart = cartService.decrementQuantity(itemId.productId(), userDetails.getUsername());
 
-        List<CartItemDTO> items = new ArrayList<>();
-
-        for (CartItem i : cart.getItems()) {
-            CartItemDTO item = new CartItemDTO(
-                    i.getProduct().getId(),
-                    i.getName(),
-                    i.getUnitPrice(),
-                    i.getQuantity(),
-                    i.getImageUrl()
-            );
-            items.add(item);
-        }
-        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), items));
+        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), cartService.listCartItems(cart)));
     }
 
     @DeleteMapping(value = "/remove/{itemId}")
@@ -65,19 +52,7 @@ public class CartController {
                                               @AuthenticationPrincipal UserDetails userDetails) {
         Cart cart = cartService.removeItem(itemId, userDetails.getUsername());
 
-        List<CartItemDTO> items = new ArrayList<>();
-
-        for (CartItem i : cart.getItems()) {
-            CartItemDTO item = new CartItemDTO(
-                    i.getProduct().getId(),
-                    i.getName(),
-                    i.getUnitPrice(),
-                    i.getQuantity(),
-                    i.getImageUrl()
-            );
-            items.add(item);
-        }
-        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), items));
+        return ResponseEntity.ok(new CartDTO(cart.getId(), cart.getTotal(), cartService.listCartItems(cart)));
     }
 
     @DeleteMapping(value = "/removeAll")

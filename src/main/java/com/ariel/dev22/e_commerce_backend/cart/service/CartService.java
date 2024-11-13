@@ -1,5 +1,6 @@
 package com.ariel.dev22.e_commerce_backend.cart.service;
 
+import com.ariel.dev22.e_commerce_backend.cart.dto.CartItemDTO;
 import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
 import com.ariel.dev22.e_commerce_backend.cart.models.CartItem;
 import com.ariel.dev22.e_commerce_backend.cart.repository.CartRepository;
@@ -10,6 +11,8 @@ import com.ariel.dev22.e_commerce_backend.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,21 +32,15 @@ public class CartService {
         //RECUPERAR O PRODUTO
         Product product = productService.findById(productId);
 
-        // ENCONTRAR ITEM NO CARRINHO
-        CartItem cartItem = findCartItem(cart.getItems(), product.getId());
+        // CRIAR E ADICIONAR ITEM NO CARRINHO
+        CartItem cartItem = new CartItem(product, cart);
 
-        if (cartItem == null) {
-            cartItem = new CartItem(product, cart);
+        cartItem.setName(product.getName());
+        cartItem.setUnitPrice(product.getUnitPrice());
+        cartItem.setQuantity(1);
+        cartItem.setImageUrl(product.getImageUrl());
 
-            cartItem.setName(product.getName());
-            cartItem.setUnitPrice(product.getUnitPrice());
-            cartItem.setQuantity(1);
-            cartItem.setImageUrl(product.getImageUrl());
-
-            cart.getItems().add(cartItem);
-        } else {
-            cartItem.setQuantity(cartItem.getQuantity() + 1);
-        }
+        cart.getItems().add(cartItem);
 
         // ATUALIZAR CARRINHO
         cart.updateTotal();
@@ -54,6 +51,20 @@ public class CartService {
 
     public Cart findCart(String userEmail) {
         return userService.findUserByEmail(userEmail).getCart();
+    }
+
+    public Cart incrementQuantity(Long itemId, String userEmail) {
+        User user = userService.findUserByEmail(userEmail);
+
+        Cart cart = user.getCart();
+
+        CartItem cartItem = findCartItem(cart.getItems(), itemId);
+
+        cartItem.setQuantity(cartItem.getQuantity() + 1);
+
+        cart.updateTotal();
+
+        return cartRepository.save(cart);
     }
 
     public Cart decrementQuantity(Long itemId, String userEmail) {
@@ -96,6 +107,22 @@ public class CartService {
         cart.updateTotal();
 
         return cartRepository.save(cart);
+    }
+
+    public List<CartItemDTO> listCartItems(Cart cart) {
+        List<CartItemDTO> items = new ArrayList<>();
+
+        for (CartItem i : cart.getItems()) {
+            CartItemDTO item = new CartItemDTO(
+                    i.getProduct().getId(),
+                    i.getName(),
+                    i.getUnitPrice(),
+                    i.getQuantity(),
+                    i.getImageUrl()
+            );
+            items.add(item);
+        }
+        return items;
     }
 
     private CartItem findCartItem(Set<CartItem> items, Long itemId) {
