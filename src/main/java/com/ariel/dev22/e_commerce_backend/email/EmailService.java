@@ -1,5 +1,6 @@
 package com.ariel.dev22.e_commerce_backend.email;
 
+import com.ariel.dev22.e_commerce_backend.contact.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -30,6 +31,25 @@ public class EmailService {
             message.setTo(receiver);
             message.setSubject(title);
             message.setText(baseUrl);
+
+            mailSender.send(message);
+        } catch (MailException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void notifyRequestReceived(Contact contact) {
+        try {
+            String title = "Confirmação de Recebimento da Sua Solicitação";
+            String body =
+                    "Prezado(a) " + contact.getClientName() +
+                            "\nRecebemos sua solicitação e ela foi registrada em nosso sistema sob o número de protocolo: " + contact.getProtocol();
+            SimpleMailMessage message = new SimpleMailMessage();
+
+            message.setFrom(sender);
+            message.setTo(contact.getClientEmail());
+            message.setSubject(title);
+            message.setText(body);
 
             mailSender.send(message);
         } catch (MailException e) {
