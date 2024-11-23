@@ -1,7 +1,6 @@
-package com.ariel.dev22.e_commerce_backend.favorite.models;
+package com.ariel.dev22.e_commerce_backend.domains.favorite.models;
 
-import com.ariel.dev22.e_commerce_backend.favorite.models.pk.FavoriteItemPK;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
@@ -26,7 +25,7 @@ import java.time.LocalDate;
 public class FavoriteItem {
     @JsonIgnore
     @EmbeddedId
-    private FavoriteItemPK id = new FavoriteItemPK();
+    private FavoriteItemKey id = new FavoriteItemKey();
 
     @NotBlank(message = "O nome do item dos favoritos não pode estar em branco")
     @Column(nullable = false)

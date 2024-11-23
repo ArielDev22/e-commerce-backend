@@ -1,4 +1,4 @@
-package com.ariel.dev22.e_commerce_backend.favorite.dto;
+package com.ariel.dev22.e_commerce_backend.domains.favorite.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

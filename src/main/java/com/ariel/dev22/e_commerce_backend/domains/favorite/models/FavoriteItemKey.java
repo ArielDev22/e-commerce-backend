@@ -1,7 +1,6 @@
-package com.ariel.dev22.e_commerce_backend.favorite.models.pk;
+package com.ariel.dev22.e_commerce_backend.domains.favorite.models;
 
-import com.ariel.dev22.e_commerce_backend.favorite.models.Favorite;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,7 +12,7 @@ import java.util.Objects;
 @Embeddable
 @Getter
 @Setter
-public class FavoriteItemPK {
+public class FavoriteItemKey {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -26,7 +25,7 @@ public class FavoriteItemPK {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FavoriteItemPK that = (FavoriteItemPK) o;
+        FavoriteItemKey that = (FavoriteItemKey) o;
         return Objects.equals(product, that.product) && Objects.equals(favorite, that.favorite);
     }
 

@@ -1,6 +1,6 @@
-package com.ariel.dev22.e_commerce_backend.favorite.models;
+package com.ariel.dev22.e_commerce_backend.domains.favorite.models;
 
-import com.ariel.dev22.e_commerce_backend.user.model.User;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
