@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.cart.models;
+package com.ariel.dev22.e_commerce_backend.domains.cart.models.entities;
 
-import com.ariel.dev22.e_commerce_backend.cart.models.pk.CartItemPK;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.key.CartItemKey;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 public class CartItem {
     @JsonIgnore
     @EmbeddedId
-    private CartItemPK id = new CartItemPK();
+    private CartItemKey id = new CartItemKey();
 
     @NotBlank(message = "O nome do item do carrinho não pode estar em branco")
     @Column(nullable = false)

@@ -1,14 +1,15 @@
-package com.ariel.dev22.e_commerce_backend.cart.service;
+package com.ariel.dev22.e_commerce_backend.domains.cart.service;
 
-import com.ariel.dev22.e_commerce_backend.cart.dto.CartItemDTO;
-import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
-import com.ariel.dev22.e_commerce_backend.cart.models.CartItem;
-import com.ariel.dev22.e_commerce_backend.cart.repository.CartRepository;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
-import com.ariel.dev22.e_commerce_backend.product.service.ProductService;
-import com.ariel.dev22.e_commerce_backend.user.model.User;
-import com.ariel.dev22.e_commerce_backend.user.service.UserService;
-import lombok.AllArgsConstructor;
+import com.ariel.dev22.e_commerce_backend.domains.cart.mapper.CartMapper;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.dto.CartItemData;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.Cart;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.CartItem;
+import com.ariel.dev22.e_commerce_backend.domains.cart.repository.CartRepository;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
+import com.ariel.dev22.e_commerce_backend.domains.product.service.ProductService;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
+import com.ariel.dev22.e_commerce_backend.domains.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,11 +17,11 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartService {
-    private CartRepository cartRepository;
-    private UserService userService;
-    private ProductService productService;
+    private final CartRepository cartRepository;
+    private final UserService userService;
+    private final ProductService productService;
 
     public String addItem(Long productId, String userEmail) {
         // RECUPERAR O USUARIO
@@ -109,18 +110,11 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public List<CartItemDTO> listCartItems(Cart cart) {
-        List<CartItemDTO> items = new ArrayList<>();
+    public List<CartItemData> listCartItems(Cart cart) {
+        List<CartItemData> items = new ArrayList<>();
 
-        for (CartItem i : cart.getItems()) {
-            CartItemDTO item = new CartItemDTO(
-                    i.getProduct().getId(),
-                    i.getName(),
-                    i.getUnitPrice(),
-                    i.getQuantity(),
-                    i.getImageUrl()
-            );
-            items.add(item);
+        for (CartItem item : cart.getItems()) {
+            items.add(CartMapper.toCartItemData(item));
         }
         return items;
     }

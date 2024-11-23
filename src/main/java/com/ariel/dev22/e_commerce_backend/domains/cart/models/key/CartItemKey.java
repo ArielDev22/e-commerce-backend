@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.cart.models.pk;
+package com.ariel.dev22.e_commerce_backend.domains.cart.models.key;
 
-import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.Cart;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,7 +13,7 @@ import java.util.Objects;
 @Embeddable
 @Getter
 @Setter
-public class CartItemPK {
+public class CartItemKey {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -26,7 +26,7 @@ public class CartItemPK {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CartItemPK that = (CartItemPK) o;
+        CartItemKey that = (CartItemKey) o;
         return Objects.equals(product, that.product) && Objects.equals(cart, that.cart);
     }
 
