@@ -1,13 +1,14 @@
-package com.ariel.dev22.e_commerce_backend.security;
+package com.ariel.dev22.e_commerce_backend.infra.security;
 
-import com.ariel.dev22.e_commerce_backend.auth.service.AuthService;
-import com.ariel.dev22.e_commerce_backend.token.service.RevokedTokenService;
-import com.ariel.dev22.e_commerce_backend.token.service.TokenService;
+import com.ariel.dev22.e_commerce_backend.domains.auth.exceptions.AuthException;
+import com.ariel.dev22.e_commerce_backend.domains.auth.service.AuthService;
+import com.ariel.dev22.e_commerce_backend.domains.token.service.RevokedTokenService;
+import com.ariel.dev22.e_commerce_backend.domains.token.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +18,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
-    private RevokedTokenService revokedTokenService;
-    private TokenService tokenService;
-    private AuthService authService;
+    private final RevokedTokenService revokedTokenService;
+    private final TokenService tokenService;
+    private final AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -35,9 +36,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (email != null) {
                 UserDetails user = authService.loadUserByUsername(email);
 
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                if (user != null){
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    throw new AuthException("Usuário não registrado ou autenticado.");
+                }
             } else {
                 System.out.println(revokedTokenService.revokeToken(token));
             }
