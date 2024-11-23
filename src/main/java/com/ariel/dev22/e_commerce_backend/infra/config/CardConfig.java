@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.config;
+package com.ariel.dev22.e_commerce_backend.infra.config;
 
-import com.ariel.dev22.e_commerce_backend.card.model.Card;
-import com.ariel.dev22.e_commerce_backend.card.repository.CardRepository;
+import com.ariel.dev22.e_commerce_backend.domains.card.model.Card;
+import com.ariel.dev22.e_commerce_backend.domains.card.repository.CardRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

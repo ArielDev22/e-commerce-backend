@@ -1,7 +1,6 @@
-package com.ariel.dev22.e_commerce_backend.card.model;
+package com.ariel.dev22.e_commerce_backend.domains.card.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,13 +17,10 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O número não pode estar em branco")
     private String number;
 
-    @NotBlank(message = "A data não pode estar em branco")
     private String expirationDate;
 
-    @NotBlank(message = "O cvc não pode estar em branco")
     private String cvc;
 
     @Column(nullable = false)
