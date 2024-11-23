@@ -1,11 +1,11 @@
-package com.ariel.dev22.e_commerce_backend.config;
+package com.ariel.dev22.e_commerce_backend.infra.config;
 
-import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
-import com.ariel.dev22.e_commerce_backend.favorite.models.Favorite;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
-import com.ariel.dev22.e_commerce_backend.product.repository.ProductRepository;
-import com.ariel.dev22.e_commerce_backend.user.model.User;
-import com.ariel.dev22.e_commerce_backend.user.repository.UserRepository;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.Cart;
+import com.ariel.dev22.e_commerce_backend.domains.favorite.models.Favorite;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
+import com.ariel.dev22.e_commerce_backend.domains.product.repository.ProductRepository;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
+import com.ariel.dev22.e_commerce_backend.domains.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
