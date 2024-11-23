@@ -1,6 +1,8 @@
-package com.ariel.dev22.e_commerce_backend.contact;
+package com.ariel.dev22.e_commerce_backend.domains.contact.service;
 
-import com.ariel.dev22.e_commerce_backend.email.EmailService;
+import com.ariel.dev22.e_commerce_backend.domains.contact.models.Contact;
+import com.ariel.dev22.e_commerce_backend.domains.contact.repository.ContactRepository;
+import com.ariel.dev22.e_commerce_backend.domains.email.service.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

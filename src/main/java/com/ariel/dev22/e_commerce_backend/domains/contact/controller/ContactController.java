@@ -1,5 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.contact;
+package com.ariel.dev22.e_commerce_backend.domains.contact.controller;
 
+import com.ariel.dev22.e_commerce_backend.domains.contact.models.ContactData;
+import com.ariel.dev22.e_commerce_backend.domains.contact.service.ContactService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

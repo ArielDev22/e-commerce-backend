@@ -1,4 +1,4 @@
-package com.ariel.dev22.e_commerce_backend.contact;
+package com.ariel.dev22.e_commerce_backend.domains.contact.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
