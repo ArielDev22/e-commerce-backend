@@ -1,4 +1,4 @@
-package com.ariel.dev22.e_commerce_backend.product.dto;
+package com.ariel.dev22.e_commerce_backend.domains.product.model.dto;
 
 import java.math.BigDecimal;
 

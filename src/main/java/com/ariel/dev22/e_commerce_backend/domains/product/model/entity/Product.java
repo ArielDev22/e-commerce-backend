@@ -1,6 +1,6 @@
-package com.ariel.dev22.e_commerce_backend.product.model;
+package com.ariel.dev22.e_commerce_backend.domains.product.model.entity;
 
-import com.ariel.dev22.e_commerce_backend.product.model.enums.Category;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.enums.Category;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

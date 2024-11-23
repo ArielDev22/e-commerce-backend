@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.product.repository;
+package com.ariel.dev22.e_commerce_backend.domains.product.repository;
 
-import com.ariel.dev22.e_commerce_backend.product.model.enums.Category;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.enums.Category;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
