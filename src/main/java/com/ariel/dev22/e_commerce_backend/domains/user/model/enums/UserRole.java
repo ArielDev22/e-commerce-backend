@@ -1,4 +1,4 @@
-package com.ariel.dev22.e_commerce_backend.user.model.enums;
+package com.ariel.dev22.e_commerce_backend.domains.user.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

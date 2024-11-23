@@ -1,9 +1,0 @@
-package com.ariel.dev22.e_commerce_backend.user.repository;
-
-import com.ariel.dev22.e_commerce_backend.user.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-
-public interface UserRepository extends JpaRepository<User, Long> {
-    UserDetails findByEmail(String email);
-}

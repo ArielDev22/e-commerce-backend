@@ -1,18 +1,18 @@
-package com.ariel.dev22.e_commerce_backend.user.model;
+package com.ariel.dev22.e_commerce_backend.domains.user.model;
 
-import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
-import com.ariel.dev22.e_commerce_backend.favorite.models.Favorite;
-import com.ariel.dev22.e_commerce_backend.order.models.Order;
-import com.ariel.dev22.e_commerce_backend.user.model.enums.UserRole;
+import com.ariel.dev22.e_commerce_backend.domains.address.models.Address;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.Cart;
+import com.ariel.dev22.e_commerce_backend.domains.favorite.models.Favorite;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.entities.Order;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,16 +29,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome de usuário não pode estar em branco")
+    @Column(nullable = false)
     private String name;
 
-    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "O e-mail deve estar em um formato válido")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "A senha não pode estar em branco")
-    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
+    @Column(nullable = false)
     private String password;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private LocalDate birthdate;
+
+    private String telephone;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -51,6 +54,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Address address;
 
     public User(String name, String email, String password, String role) {
         this.name = name;
