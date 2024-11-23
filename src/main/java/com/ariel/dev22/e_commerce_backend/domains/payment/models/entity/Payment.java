@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.payment.models;
+package com.ariel.dev22.e_commerce_backend.domains.payment.models.entity;
 
-import com.ariel.dev22.e_commerce_backend.order.models.Order;
-import com.ariel.dev22.e_commerce_backend.payment.models.enums.PaymentMethod;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.entities.Order;
+import com.ariel.dev22.e_commerce_backend.domains.payment.models.enums.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

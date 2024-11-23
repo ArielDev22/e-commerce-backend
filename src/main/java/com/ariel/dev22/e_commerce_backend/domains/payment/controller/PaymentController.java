@@ -1,9 +1,10 @@
-package com.ariel.dev22.e_commerce_backend.payment.controller;
+package com.ariel.dev22.e_commerce_backend.domains.payment.controller;
 
-import com.ariel.dev22.e_commerce_backend.payment.dto.PaymentCardData;
-import com.ariel.dev22.e_commerce_backend.payment.models.Payment;
-import com.ariel.dev22.e_commerce_backend.payment.service.PaymentService;
+import com.ariel.dev22.e_commerce_backend.domains.payment.models.dto.PaymentCardData;
+import com.ariel.dev22.e_commerce_backend.domains.payment.models.entity.Payment;
+import com.ariel.dev22.e_commerce_backend.domains.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,6 @@ public class PaymentController {
 
     @PostMapping("/credit-card")
     public ResponseEntity<Payment> payWithCreditCard(@RequestBody PaymentCardData data) {
-        return ResponseEntity.ok(paymentService.creditCardPayment(data));
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.creditCardPayment(data));
     }
 }
