@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.order.controller;
+package com.ariel.dev22.e_commerce_backend.domains.order.controller;
 
-import com.ariel.dev22.e_commerce_backend.order.models.Order;
-import com.ariel.dev22.e_commerce_backend.order.service.OrderService;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.entities.Order;
+import com.ariel.dev22.e_commerce_backend.domains.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

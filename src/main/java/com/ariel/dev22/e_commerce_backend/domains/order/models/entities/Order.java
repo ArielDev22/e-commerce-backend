@@ -1,8 +1,8 @@
-package com.ariel.dev22.e_commerce_backend.order.models;
+package com.ariel.dev22.e_commerce_backend.domains.order.models.entities;
 
-import com.ariel.dev22.e_commerce_backend.order.models.enums.OrderStatus;
-import com.ariel.dev22.e_commerce_backend.payment.models.Payment;
-import com.ariel.dev22.e_commerce_backend.user.model.User;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.enums.OrderStatus;
+import com.ariel.dev22.e_commerce_backend.domains.payment.models.entity.Payment;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

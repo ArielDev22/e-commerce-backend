@@ -1,7 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.order.models.pk;
+package com.ariel.dev22.e_commerce_backend.domains.order.models.key;
 
-import com.ariel.dev22.e_commerce_backend.order.models.Order;
-import com.ariel.dev22.e_commerce_backend.product.model.Product;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.entities.Order;
+import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

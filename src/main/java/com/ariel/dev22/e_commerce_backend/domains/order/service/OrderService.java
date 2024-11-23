@@ -1,25 +1,25 @@
-package com.ariel.dev22.e_commerce_backend.order.service;
+package com.ariel.dev22.e_commerce_backend.domains.order.service;
 
-import com.ariel.dev22.e_commerce_backend.cart.models.Cart;
-import com.ariel.dev22.e_commerce_backend.cart.models.CartItem;
-import com.ariel.dev22.e_commerce_backend.cart.service.CartService;
-import com.ariel.dev22.e_commerce_backend.order.models.Order;
-import com.ariel.dev22.e_commerce_backend.order.models.OrderItem;
-import com.ariel.dev22.e_commerce_backend.order.repository.OrderRepository;
-import com.ariel.dev22.e_commerce_backend.user.model.User;
-import com.ariel.dev22.e_commerce_backend.user.service.UserService;
-import lombok.AllArgsConstructor;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.Cart;
+import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.CartItem;
+import com.ariel.dev22.e_commerce_backend.domains.cart.service.CartService;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.entities.Order;
+import com.ariel.dev22.e_commerce_backend.domains.order.models.entities.OrderItem;
+import com.ariel.dev22.e_commerce_backend.domains.order.repository.OrderRepository;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
+import com.ariel.dev22.e_commerce_backend.domains.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderService {
-    private OrderRepository orderRepository;
-    private UserService userService;
-    private CartService cartService;
+    private final OrderRepository orderRepository;
+    private final UserService userService;
+    private final CartService cartService;
 
     public Order createOrder(String userEmail) {
         User user = userService.findUserByEmail(userEmail);
