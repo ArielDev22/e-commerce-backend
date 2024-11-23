@@ -1,6 +1,7 @@
-package com.ariel.dev22.e_commerce_backend.email;
+package com.ariel.dev22.e_commerce_backend.domains.email.service;
 
-import com.ariel.dev22.e_commerce_backend.contact.Contact;
+import com.ariel.dev22.e_commerce_backend.domains.contact.models.Contact;
+import com.ariel.dev22.e_commerce_backend.domains.email.exception.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -35,6 +36,7 @@ public class EmailService {
             mailSender.send(message);
         } catch (MailException e) {
             System.out.println(e.getMessage());
+            throw new EmailException("Erro ao enviar o email de confirmação.");
         }
     }
 
@@ -54,6 +56,7 @@ public class EmailService {
             mailSender.send(message);
         } catch (MailException e) {
             System.out.println(e.getMessage());
+            throw new EmailException("Erro ao enviar o email.");
         }
     }
 }
