@@ -1,10 +1,10 @@
-package com.ariel.dev22.e_commerce_backend.auth.controller;
+package com.ariel.dev22.e_commerce_backend.domains.auth.controller;
 
-import com.ariel.dev22.e_commerce_backend.auth.dto.AuthResponse;
-import com.ariel.dev22.e_commerce_backend.auth.dto.LoginData;
-import com.ariel.dev22.e_commerce_backend.auth.dto.RegisterData;
-import com.ariel.dev22.e_commerce_backend.token.service.RevokedTokenService;
-import com.ariel.dev22.e_commerce_backend.user.service.UserService;
+import com.ariel.dev22.e_commerce_backend.domains.auth.models.AuthLoginRequest;
+import com.ariel.dev22.e_commerce_backend.domains.auth.models.AuthRegisterRequest;
+import com.ariel.dev22.e_commerce_backend.domains.auth.models.AuthResponse;
+import com.ariel.dev22.e_commerce_backend.domains.token.service.RevokedTokenService;
+import com.ariel.dev22.e_commerce_backend.domains.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,13 +22,13 @@ public class AuthController {
     private RevokedTokenService revokedTokenService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginData data) {
-        return ResponseEntity.ok(new AuthResponse(userService.login(data)));
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest request) {
+        return ResponseEntity.ok(new AuthResponse(userService.login(request)));
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterData registerData) {
-        return ResponseEntity.ok(new AuthResponse(userService.register(registerData.toModel())));
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid AuthRegisterRequest request) {
+        return ResponseEntity.ok(new AuthResponse(userService.register(request.toModel())));
     }
 
     @PostMapping("/logout")
