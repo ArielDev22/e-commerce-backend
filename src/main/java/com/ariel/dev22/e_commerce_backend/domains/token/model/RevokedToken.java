@@ -1,4 +1,4 @@
-package com.ariel.dev22.e_commerce_backend.token.model;
+package com.ariel.dev22.e_commerce_backend.domains.token.model;
 
 import jakarta.persistence.*;
 import lombok.*;

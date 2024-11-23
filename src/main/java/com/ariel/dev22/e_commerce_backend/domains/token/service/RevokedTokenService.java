@@ -1,17 +1,17 @@
-package com.ariel.dev22.e_commerce_backend.token.service;
+package com.ariel.dev22.e_commerce_backend.domains.token.service;
 
-import com.ariel.dev22.e_commerce_backend.token.model.RevokedToken;
-import com.ariel.dev22.e_commerce_backend.token.repository.RevokedTokenRepository;
+import com.ariel.dev22.e_commerce_backend.domains.token.model.RevokedToken;
+import com.ariel.dev22.e_commerce_backend.domains.token.repository.RevokedTokenRepository;
 import com.auth0.jwt.JWT;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @Service
+@RequiredArgsConstructor
 public class RevokedTokenService {
-    @Autowired
-    private RevokedTokenRepository revokedTokenRepository;
+    private final RevokedTokenRepository revokedTokenRepository;
 
     public String revokeToken(String token) {
         RevokedToken revokedToken = new RevokedToken(token, extractExpirationDate(token));
