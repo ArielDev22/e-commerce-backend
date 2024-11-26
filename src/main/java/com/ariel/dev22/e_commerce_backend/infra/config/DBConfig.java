@@ -1,15 +1,12 @@
 package com.ariel.dev22.e_commerce_backend.infra.config;
 
-import com.ariel.dev22.e_commerce_backend.domains.cart.models.entities.Cart;
-import com.ariel.dev22.e_commerce_backend.domains.favorite.models.Favorite;
 import com.ariel.dev22.e_commerce_backend.domains.product.model.entity.Product;
 import com.ariel.dev22.e_commerce_backend.domains.product.repository.ProductRepository;
 import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
-import com.ariel.dev22.e_commerce_backend.domains.user.repository.UserRepository;
+import com.ariel.dev22.e_commerce_backend.domains.user.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,21 +16,12 @@ import java.util.List;
 @Configuration
 public class DBConfig {
     @Bean
-    CommandLineRunner initDB(UserRepository userRepository, ProductRepository productRepository, PasswordEncoder encoder) {
+    CommandLineRunner initDB(UserService userService, ProductRepository productRepository) {
         return args -> {
             // CRIAÇÃO DE USUÁRIO
-            User user = new User("teste", "teste@gmail.com", encoder.encode("teste123"), "user");
+            User user = new User("teste", "teste@gmail.com", "teste123", "user");
 
-            // CRIAR O FAVORITOS DO USUARIO
-            Favorite favorite = new Favorite();
-            favorite.setUser(user);
-            user.setFavorite(favorite);
-
-            // CRIAR O CARRINHO DO USUARIO
-            Cart cart = new Cart(user);
-            user.setCart(cart);
-
-            userRepository.save(user);
+            userService.register(user);
 
             // PRODUTOS
             Product p1 = new Product("Batom", BigDecimal.valueOf(39.99), "beauty",
