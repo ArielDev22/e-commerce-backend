@@ -46,12 +46,13 @@ public class UserService {
             // CRIAR ENDEREÇO
             Address address = new Address();
             address.setUser(user);
+            user.setAddress(address);
 
             User newUser = userRepository.save(user);
 
             emailService.confirmationEmailGeneration(newUser.getEmail());
 
-            return tokenService.generateToken(user);
+            return tokenService.generateToken(newUser);
         }
         throw new AuthException("Já existe uma conta com este email");
     }
