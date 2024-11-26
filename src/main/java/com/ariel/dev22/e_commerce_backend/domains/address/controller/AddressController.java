@@ -17,9 +17,9 @@ public class AddressController {
     private final AddressService addressService;
 
     @PutMapping
-    public ResponseEntity<Address> editAddress(@AuthenticationPrincipal UserDetails user,
-                                               @RequestBody @Valid AddressInfo addressInfo) {
-        return ResponseEntity.ok(addressService.editAddress(user.getUsername(), addressInfo.toModel()));
+    public ResponseEntity<String> editAddress(@AuthenticationPrincipal UserDetails user,
+                                              @RequestBody @Valid AddressInfo addressInfo) {
+        return ResponseEntity.ok(addressService.editAddress(user.getUsername(), addressInfo));
     }
 
     @GetMapping

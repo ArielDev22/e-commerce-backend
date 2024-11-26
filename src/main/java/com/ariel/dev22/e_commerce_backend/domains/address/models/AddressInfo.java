@@ -17,7 +17,4 @@ public record AddressInfo(
         String cep,
         String reference
 ) {
-    public Address toModel(){
-        return new Address(null, street, district, city, number, cep, reference, null);
-    }
 }
