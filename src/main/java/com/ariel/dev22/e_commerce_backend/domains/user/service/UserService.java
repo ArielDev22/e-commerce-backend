@@ -8,12 +8,19 @@ import com.ariel.dev22.e_commerce_backend.domains.email.service.EmailService;
 import com.ariel.dev22.e_commerce_backend.domains.favorite.models.Favorite;
 import com.ariel.dev22.e_commerce_backend.domains.token.service.TokenService;
 import com.ariel.dev22.e_commerce_backend.domains.user.model.User;
+import com.ariel.dev22.e_commerce_backend.domains.user.model.UserImage;
 import com.ariel.dev22.e_commerce_backend.domains.user.model.dto.UpdateUserRequest;
 import com.ariel.dev22.e_commerce_backend.domains.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 @Service
@@ -23,6 +30,9 @@ public class UserService {
     private final EmailService emailService;
     private final PasswordEncoder encoder;
     private final TokenService tokenService;
+
+    @Value("${upload.dir}")
+    private String uploadDir;
 
     public User findUserByEmail(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -81,5 +91,28 @@ public class UserService {
         userRepository.save(user);
 
         return "Informações atualizadas";
+    }
+
+    public String uploadProfileImage(String email, MultipartFile image) {
+        User user = findUserByEmail(email);
+
+        String archive = "profile_" + user.getId() + "_" + image.getOriginalFilename();
+        Path archiveDirectory = Path.of(uploadDir, archive);
+
+        try {
+            Files.copy(image.getInputStream(), archiveDirectory, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar imagen: " + e.getMessage());
+        }
+
+        UserImage userImage = new UserImage();
+
+        userImage.setImageUrl(archiveDirectory.toString());
+        userImage.setUser(user);
+
+        user.setProfileImage(userImage);
+        userRepository.save(user);
+
+        return "Imagem salva";
     }
 }

@@ -43,6 +43,9 @@ public class User implements UserDetails {
 
     private String telephone;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserImage profileImage;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
