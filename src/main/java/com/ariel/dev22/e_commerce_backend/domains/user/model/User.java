@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
     private String telephone;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserImage profileImage;
 
     @Enumerated(EnumType.STRING)

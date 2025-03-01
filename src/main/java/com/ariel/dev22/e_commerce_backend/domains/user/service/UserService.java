@@ -34,6 +34,9 @@ public class UserService {
     @Value("${upload.dir}")
     private String uploadDir;
 
+    @Value("${profileImage.dir}")
+    private String standardProfileImageDir;
+
     public User findUserByEmail(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         return optionalUser.orElse(null);
@@ -57,6 +60,13 @@ public class UserService {
             Address address = new Address();
             address.setUser(user);
             user.setAddress(address);
+
+            // SETAR IMAGEM
+            UserImage imageProfile = new UserImage();
+            imageProfile.setImageUrl(standardProfileImageDir);
+            imageProfile.setUser(user);
+
+            user.setProfileImage(imageProfile);
 
             User newUser = userRepository.save(user);
 
@@ -105,12 +115,11 @@ public class UserService {
             throw new RuntimeException("Erro ao salvar imagen: " + e.getMessage());
         }
 
-        UserImage userImage = new UserImage();
-
+        UserImage userImage = user.getProfileImage();
         userImage.setImageUrl(archiveDirectory.toString());
-        userImage.setUser(user);
 
         user.setProfileImage(userImage);
+
         userRepository.save(user);
 
         return "Imagem salva";

@@ -32,7 +32,6 @@ public class TokenService {
                     .withSubject(userDetails.getUsername())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
-            System.out.println("Token gerado: " + token);
             return token;
         } catch (JWTCreationException e) {
             System.out.println(e.getMessage());
