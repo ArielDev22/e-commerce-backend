@@ -22,15 +22,15 @@ public class PaymentService {
     private final OrderService orderService;
 
     @Transactional
-    public Payment creditCardPayment(PaymentCardData data) {
+    public Payment creditCardPayment(PaymentCardData data, String userEmail) {
         // VERIFICAR DADOS DO CARTÃO
         if (cardService.isValidCardData(data.cardData())) {
-            // RECUPERAR PEDIDO
-            Order order = orderService.listOrders(data.shippingData().email()).getLast();
-
             // CRIAR O PAGAMENTO
             Payment payment = new Payment();
             Card card = cardService.findCardByNumber(data.cardData().number());
+
+            // RECUPERAR PEDIDO
+            Order order = orderService.listOrders(userEmail).getLast();
 
             payment.setOrder(order);
 
