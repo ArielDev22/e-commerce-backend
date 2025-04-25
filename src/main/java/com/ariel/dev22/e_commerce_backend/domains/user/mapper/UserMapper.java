@@ -23,6 +23,6 @@ public class UserMapper {
 
         byte[] imageBytes = FileConverter.loadImage(user.getProfileImage().getImageUrl());
 
-        return new UserData(user.getId(), user.getName(), user.getEmail(), telephone, birthdate, imageBytes);
+        return new UserData(user.getId(), user.getName(), user.getEmail(), telephone, birthdate, imageBytes, user.getAddress());
     }
 }

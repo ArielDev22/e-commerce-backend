@@ -11,6 +11,6 @@ public record UpdateUserRequest(
         @NotBlank
         String email,
         String telephone,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDate birthdate) {
 }

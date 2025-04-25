@@ -30,10 +30,4 @@ public class AddressService {
 
         return "Endereço atualizado";
     }
-
-    public Address getUserAddress(String userEmail) {
-        User user = userService.findUserByEmail(userEmail);
-
-        return addressRepository.findByUser(user);
-    }
 }
