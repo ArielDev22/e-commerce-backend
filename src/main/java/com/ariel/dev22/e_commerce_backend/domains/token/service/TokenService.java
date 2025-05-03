@@ -26,13 +26,12 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            String token = JWT
+           return JWT
                     .create()
                     .withIssuer("e-commerce-backend")
                     .withSubject(userDetails.getUsername())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
-            return token;
         } catch (JWTCreationException e) {
             System.out.println(e.getMessage());
             throw new TokenException("Falha ao gerar o token.");
