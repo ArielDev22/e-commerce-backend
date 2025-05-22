@@ -42,10 +42,14 @@ public class EmailService {
 
     public void notifyRequestReceived(Contact contact) {
         try {
-            String title = "Confirmação de Recebimento da Sua Solicitação";
+            String title = "Thank You for Contacting ZIARA Clothing";
             String body =
-                    "Prezado(a) " + contact.getClientName() +
-                            "\nRecebemos sua solicitação e ela foi registrada em nosso sistema sob o número de protocolo: " + contact.getProtocol();
+                    "Dear Customer,\n" +
+                            "\nThank you for reaching out to ZIARA Clothing! We’ve received your message and will get back to you shortly.\n" +
+                    "\nOur team is committed to providing you with the best support and ensuring your inquiries are addressed promptly.\n" +
+                    "Thank you for choosing ZIARA Clothing. We look forward to assisting you!\n" +
+                    "Best regards,\n" + "The ZIARA Clothing Team";
+
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setFrom(sender);
