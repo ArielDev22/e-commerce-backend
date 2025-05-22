@@ -30,6 +30,11 @@ public class CartController {
         return ResponseEntity.ok(CartMapper.toCartResponse(cartService.findCart(userDetails.getUsername())));
     }
 
+    @GetMapping("/items")
+    public ResponseEntity<Integer> getCartItems(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(cartService.findCart(userDetails.getUsername()).getItems().size());
+    }
+
     @PutMapping(value = "/increment")
     public ResponseEntity<CartResponse> incrementItem(@RequestBody ProductId itemId,
                                                       @AuthenticationPrincipal UserDetails userDetails) {
